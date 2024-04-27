@@ -13,7 +13,9 @@ def evaluate_student_by_first_attempt(df, student_id):
 
     return 1 - topics_list
 
-
+def evaluate_student_by_chapter(df, student_id, chapter):
+    df = df[df['chapter'] == chapter]
+    return evaluate_student_wrapper(df, student_id)
 
 def evaluate_student_by_attempts_til_correct(df, student_id):
     '''

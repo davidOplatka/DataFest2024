@@ -1,4 +1,4 @@
-import st_app as st
+import streamlit as st
 from generate_questions import generate_questions
 from evaluate_student import evaluate_student_wrapper, check_id
 from model_setup import model_setup

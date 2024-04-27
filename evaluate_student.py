@@ -1,5 +1,4 @@
 import pandas as pd
-import streamlit as st
 
 def evaluate_student(student_id):
     '''
@@ -24,4 +23,3 @@ def main():
     :return:
     '''
     # We will assume that the CSVs are in the Data folder
-    df = pd.read_csv("./Data/Full Data/responses.csv")

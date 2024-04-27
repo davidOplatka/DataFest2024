@@ -56,3 +56,16 @@ def generate_questions(topics, student_level):
     #Extract the Answers from the generrated text
     answers = []
     questions = []
+    for output in outputs:
+        text = output["generated_text"]
+        lines = text.splitlines()
+        for line in lines:
+            if line.startswith("ANSWER:"):
+                answers.append(line)
+            elif line.startswith("QUESTION:"):
+                questions.append(line)
+        question, answer = text.split("ANSWER:")
+        questions.append(question)
+        answers.append(answer)
+
+    return questions, answers

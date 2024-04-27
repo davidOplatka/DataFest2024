@@ -23,3 +23,6 @@ def main():
     :return:
     '''
     # We will assume that the CSVs are in the Data folder
+    df = pd.read_csv("Data/Full Data/updated_topics.csv")
+
+    #TODO: Implement the functions to evaluate students using various heuristics

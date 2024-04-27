@@ -50,16 +50,13 @@ def evaluate_student_topics(first_attempt, first_success):
     
     return list(combined.sort_values(ascending = False).index[0:3])
 
-def evaluate_student_wrapper(studetnt_id):
+def evaluate_student_wrapper(student_id, df):
     '''
 
     :return:
     '''
     # We will assume that the CSVs are in the Data folder
-    #add argparse to get the student id and the evaluation method
-
-
-    df = pd.read_csv("Data/Full Data/scores.csv")
+    #add argparse to get the student id and the evaluation method    
 
     
     first_attempt = evaluate_student_by_first_attempt(df, student_id)
@@ -96,12 +93,3 @@ def load_data():
     '''
     df = pd.read_csv("Data/Full Data/scores.csv")
     return df
-def evaluate_student_wrapper(student_id, df):
-    '''
-
-    :return:
-    '''
-    # We will assume that the CSVs are in the Data folder
-    #add argparse to get the student id and the evaluation method
-
-    #TODO Pass the Df and the student_id to the function to get the topics and the level

@@ -26,7 +26,7 @@ def evaluate_student_by_attempts_til_correct(df, student_id):
     :return topics_list, level:
     '''
 
-    # sorry for ugly code :(
+    # sorry for ugly code :( all good lol
 
     df["correct"] = (df["points_earned"] == df["points_possible"])
     topic_counts = df.groupby("student_id")["page_topic"].nunique()
@@ -61,6 +61,6 @@ def main():
     student_id = args.student_id
     evaluation_method = args.evaluation_method
 
-    df = pd.read_csv("Data/Full Data/updated_topics.csv")
+    df = pd.read_csv("Data/Full Data/scores.csv")
 
     #TODO: Implement the functions to evaluate students using various heuristics

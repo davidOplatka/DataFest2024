@@ -30,20 +30,15 @@ def evaluate_student_by_attempts_til_correct(df, student_id):
         level = "high school"
     return topics_list, level
 
-def main():
+def evaluate_student_wrapper(studetnt_id):
     '''
 
     :return:
     '''
     # We will assume that the CSVs are in the Data folder
     #add argparse to get the student id and the evaluation method
-    parser = argparse.ArgumentParser()
-    parser.add_argument("student_id", help="The student ID to evaluate")
-    parser.add_argument("evaluation_method", help="The method to evaluate the student")
-    args = parser.parse_args()
-    student_id = args.student_id
-    evaluation_method = args.evaluation_method
+
 
     df = pd.read_csv("Data/Full Data/scores.csv")
 
-    #TODO: Implement the functions to evaluate students using various heuristics
+    #TODO Pass the Df and the student_id to the function to get the topics and the level

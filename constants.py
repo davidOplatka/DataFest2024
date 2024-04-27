@@ -1,0 +1,1 @@
+PROMPT_FORMAT_STRING = "Generate a set of review questions about {} for {} students."

@@ -1,8 +1,9 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer,  BitsAndBytesConfig
 from huggingface_hub import login
-from constants import AUTH_TOKEN, PROMPT_FORMAT_STRING
-
+from constants import AUTH_TOKEN
+import streamlit as st
+@st.cache(allow_output_mutation=True)
 def model_setup():
     model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
     login(token=AUTH_TOKEN)

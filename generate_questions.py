@@ -1,6 +1,8 @@
 from model_setup import model_setup
 from constants import PROMPT_FORMAT_STRING
+import streamlit as st
 import torch
+
 
 def create_prompt(topic, student_level):
     '''
@@ -27,6 +29,8 @@ def generate_batch_prompt(topics, student_level):
         message_list.append(prompt_list)
 
     return message_list
+
+@st.cache(allow_output_mutation=True)
 def generate_questions(topics, student_level, model, tokenizer):
     '''
     Generate a set of review questions for the given topics and student level.

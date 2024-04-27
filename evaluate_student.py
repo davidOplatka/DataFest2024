@@ -1,5 +1,5 @@
 import pandas as pd
-import argparse
+import streamlit as st
 
 def evaluate_student_by_first_attempt(df, student_id):
     student_data = df[df['student_id'] == student_id]
@@ -7,11 +7,12 @@ def evaluate_student_by_first_attempt(df, student_id):
     if(student_data.shape[0] < 10):
         print("Student Must Answer More Questions")
         return None
-    
+
     topics_list = (student_data.groupby('page_topic')['points_earned'].sum() /
                         student_data.groupby('page_topic')['points_possible'].sum()).sort_values()
-    
+
     return topics_list
+
 
 
 def evaluate_student_by_attempts_til_correct(df, student_id):
@@ -57,5 +58,34 @@ def evaluate_student_wrapper(studetnt_id):
         level = "college"
     else:
         level = "high school"
+    return topics_list, level
+
+def check_id(df, student_id):
+    '''
+
+    :param df:
+    :param student_id:
+    :return:
+    '''
+    if student_id not in df["student_id"].unique():
+        raise ValueError("Invalid student ID. Please enter a valid student ID.")
+    else:
+        return
+
+@st.cache(allow_output_mutation=True)
+def load_data():
+    '''
+
+    :return:
+    '''
+    df = pd.read_csv("Data/Full Data/scores.csv")
+    return df
+def evaluate_student_wrapper(student_id, df):
+    '''
+
+    :return:
+    '''
+    # We will assume that the CSVs are in the Data folder
+    #add argparse to get the student id and the evaluation method
 
     #TODO Pass the Df and the student_id to the function to get the topics and the level

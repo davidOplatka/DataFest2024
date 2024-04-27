@@ -1,23 +1,6 @@
 import pandas as pd
 import argparse
 
-def evaluate_student(student_id):
-    '''
-
-    :param student_id:
-    :return:
-    '''
-    pass
-
-def group_questions_by_topic(df, topics):
-    '''
-
-    :param df:
-    :param topics:
-    :return:
-    '''
-    pass
-
 def evaluate_student_by_attempts_til_correct(df, student_id):
     '''
 

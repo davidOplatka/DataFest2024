@@ -1,6 +1,19 @@
 import pandas as pd
 import argparse
 
+def evaluate_student_by_first_attempt(df, student_id):
+    student_data = df[df['student_id'] == student_id]
+    student_data = student_data[student_data['attempt'] == 1]
+    if(student_data.shape[0] < 10):
+        print("Student Must Answer More Questions")
+        return None
+    
+    topics_list = (student_data.groupby('page_topic')['points_earned'].sum() /
+                        student_data.groupby('page_topic')['points_possible'].sum()).sort_values()
+    
+    return topics_list
+
+
 def evaluate_student_by_attempts_til_correct(df, student_id):
     '''
 

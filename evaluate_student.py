@@ -24,19 +24,19 @@ def evaluate_student_by_attempts_til_correct(df, student_id):
 
     # sorry for ugly code :( all good lol
 
-    stud = df[df["student_id"] == student_id]
+    stud = df[["student_id"] == student_id]
 
     if (stud["page_topic"].nunique() < 10):
         print("Student Must Answer More Questions")
         return None
 
-    stud["correct"] = (df["points_earned"] == df["points_possible"])
+    stud["correct"] = (stud["points_earned"] == stud["points_possible"])
     correct_questions = stud[stud["correct"]]
     correct_questions = correct_questions[[["page_topic", "item_id", "prompt", "attempt"]]]
 
     min_attempts = correct_questions.groupby(["item_id", "prompt", "page_topic"])["attempt"].min()
-    average_attempts_by_topic = min_attempts.reset_index().groupby(["page_topic"])["attempt"].mean().reset_index()
-    topics_list = list(average_attempts_by_topic.sort_values(by="attempt", ascending=False)["page_topic"].iloc[0:3])
+    average_attempts_by_topic = min_attempts.reset_index().groupby(["page_topic"])["attempt"].mean()
+    topics_list = average_attempts_by_topic
     return topics_list
 
 def evaluate_student_wrapper(studetnt_id):

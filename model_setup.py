@@ -1,3 +1,4 @@
+import torch
 from transformers import pipeline, BitsAndBytesConfig
 from huggingface_hub import login
 from constants import AUTH_TOKEN, PROMPT_FORMAT_STRING
@@ -11,7 +12,7 @@ def model_setup():
     model_pipeline = pipeline(
         task="text-generation",
         model=model_id,
-        model_kwargs={"quantization_config": config},
+        model_kwargs={"quantization_config": config, "trust_remote_code": True, "torch_dtype": torch.qint8},
         device_map="auto"
     )
 

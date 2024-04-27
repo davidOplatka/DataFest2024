@@ -11,7 +11,7 @@ def evaluate_student_by_first_attempt(df, student_id):
     topics_list = (student_data.groupby('page_topic')['points_earned'].sum() /
                         student_data.groupby('page_topic')['points_possible'].sum()).sort_values()
 
-    return topics_list
+    return 1 - topics_list
 
 
 
@@ -40,6 +40,16 @@ def evaluate_student_by_attempts_til_correct(df, student_id):
     topics_list = average_attempts_by_topic.sort_values(ascending=False)
     return topics_list
 
+def evaluate_student_topics(first_attempt, first_success):
+    
+    # Perform min-max scaling on both results
+    first_attempt = (first_attempt - first_attempt.min()) / (first_attempt.max() - first_attempt.min())
+    first_success = (first_success - first_success.min()) / (first_success.max() - first_success.min())
+    
+    combined = 0.6 * first_attempt + 0.4 * first_success
+    
+    return list(combined.sort_values(ascending = False).index[0:3])
+
 def evaluate_student_wrapper(studetnt_id):
     '''
 
@@ -51,6 +61,12 @@ def evaluate_student_wrapper(studetnt_id):
 
     df = pd.read_csv("Data/Full Data/scores.csv")
 
+    
+    first_attempt = evaluate_student_by_first_attempt(df, student_id)
+    first_success = evaluate_student_by_attempts_til_correct(df, student_id)
+    
+    worst_topics = evaluate_student_topics(first_attempt, first_success)
+    
     book = df[df['student_id'] == student_id]["book"].unique()[0]
     if (book == "College / Advanced Statistics and Data Science (ABCD)"):
         level = "advanced college"
@@ -58,7 +74,7 @@ def evaluate_student_wrapper(studetnt_id):
         level = "college"
     else:
         level = "high school"
-    return topics_list, level
+    return worst_topics, level
 
 def check_id(df, student_id):
     '''

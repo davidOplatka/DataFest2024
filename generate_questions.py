@@ -30,7 +30,6 @@ def generate_batch_prompt(topics, student_level):
 
     return message_list
 
-@st.cache(allow_output_mutation=True)
 def generate_questions(topics, student_level, model, tokenizer):
     '''
     Generate a set of review questions for the given topics and student level.
@@ -62,7 +61,7 @@ def generate_questions(topics, student_level, model, tokenizer):
             do_sample=True,
             temperature=0.6,
             top_p=0.9,
-        )
+        ).to(model.device)
     #Extract the Answers from the generrated text
     decoded_outputs = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
 

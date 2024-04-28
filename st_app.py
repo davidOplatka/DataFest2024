@@ -16,13 +16,21 @@ if st.button("Generate Questions"):
     st.write("The sections you should review are {}, {}, and {}".format(topics[0], topics[1], topics[2]))
     # questions, answers = generate_questions(topics, level, model, tokenizer)
     questions = ["hi"] * 15
-    answers = ["hi"] * 15 
+    answers = ["hi"] * 15
     st.header(f'Topic 1: {topics[0]}')
     for i in range(0, 5):
         st.write(questions[i])
+        if st.button(f'Show Answer for Question {i+1}'):
+            st.write(answers[i])
+
     st.header(f'Topic 2: {topics[1]}')
     for i in range(5, 10):
         st.write(questions[i])
+        if st.button(f'Show Answer for Question {i+1}'):
+            st.write(answers[i])
+
     st.header(f'Topic 3: {topics[2]}')
     for i in range(10, 15):
         st.write(questions[i])
+        if st.button(f'Show Answer for Question {i+1}'):
+            st.write(answers[i])

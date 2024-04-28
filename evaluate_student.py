@@ -17,6 +17,16 @@ def evaluate_student_by_chapter(df, student_id, chapter):
     df = df[df['chapter'] == chapter]
     return evaluate_student_wrapper(df, student_id)
 
+def evaluate_student_by_unanswered_questions(df, student_id):
+    student_data = df[df['student_id'] == student_id]
+    max_attempts = student_data.groupby('prompt')['attempt'].max().reset_index()
+    max_attempts.rename(columns={'attempt': 'Max_Attempts'}, inplace=True)
+    student_data = pd.merge(student_data, max_attempts, on = 'prompt', how = "left")
+    student_data['unanswered'] = ((student_data['Max_Attempts'] == student_data['attempt']) & 
+                (student_data['points_earned'] != student_data['points_possible'])).astype(int)
+    topics_list = student_data.groupby('page_topic')['unanswered'].mean().sort_values(ascending=False) # actually gets the proportion
+    return topics_list
+
 def evaluate_student_by_attempts_til_correct(df, student_id):
     '''
 

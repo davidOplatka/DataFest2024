@@ -99,7 +99,6 @@ def check_id(df, student_id):
     else:
         return
 
-@st.cache(allow_output_mutation=True)
 def load_data():
     '''
 

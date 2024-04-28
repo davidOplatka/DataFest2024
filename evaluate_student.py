@@ -27,39 +27,39 @@ def evaluate_student_by_unanswered_questions(df, student_id):
     topics_list = student_data.groupby('page_topic')['unanswered'].mean().sort_values(ascending=False) # actually gets the proportion
     return topics_list
 
-def evaluate_student_by_attempts_til_correct(df, student_id):
-    '''
+# def evaluate_student_by_attempts_til_correct(df, student_id):
+#     '''
 
-    :param df:
-    :param topics:
-    :return topics_list, level:
-    '''
+#     :param df:
+#     :param topics:
+#     :return topics_list, level:
+#     '''
 
-    # sorry for ugly code :( all good lol
+#     # sorry for ugly code :( all good lol
 
-    stud = df[df["student_id"] == student_id]
+#     stud = df[df["student_id"] == student_id]
 
-    if (stud["page_topic"].nunique() < 10):
-        print("Student Must Answer More Questions")
-        return None
+#     if (stud["page_topic"].nunique() < 10):
+#         print("Student Must Answer More Questions")
+#         return None
 
-    stud["correct"] = (stud["points_earned"] == stud["points_possible"])
-    correct_questions = stud[stud["correct"]]
-    correct_questions = correct_questions[["page_topic", "item_id", "prompt", "attempt"]]
+#     stud["correct"] = (stud["points_earned"] == stud["points_possible"])
+#     correct_questions = stud[stud["correct"]]
+#     correct_questions = correct_questions[["page_topic", "item_id", "prompt", "attempt"]]
 
-    min_attempts = correct_questions.groupby(["item_id", "prompt", "page_topic"])["attempt"].min()
-    average_attempts_by_topic = min_attempts.reset_index().groupby(["page_topic"])["attempt"].mean()
-    topics_list = average_attempts_by_topic.sort_values(ascending=False)
-    return topics_list
+#     min_attempts = correct_questions.groupby(["item_id", "prompt", "page_topic"])["attempt"].min()
+#     average_attempts_by_topic = min_attempts.reset_index().groupby(["page_topic"])["attempt"].mean()
+#     topics_list = average_attempts_by_topic.sort_values(ascending=False)
+#     return topics_list
 
-def evaluate_student_topics(first_attempt, first_success, unanswered):
+def evaluate_student_topics(first_attempt, unanswered):
     
     # Perform min-max scaling on all results
     first_attempt = (first_attempt - first_attempt.min()) / (first_attempt.max() - first_attempt.min())
-    first_success = (first_success - first_success.min()) / (first_success.max() - first_success.min())
+    # first_success = (first_success - first_success.min()) / (first_success.max() - first_success.min())
     unanswered = (unanswered - unanswered.min()) / (unanswered.max() - unanswered.min())
     
-    combined = 0.6 * first_attempt + 0.2 * first_success + 0.2 * unanswered
+    combined = 0.6 * first_attempt + 0.4 * unanswered
     
     return list(combined.sort_values(ascending = False).index[0:3])
 
@@ -73,10 +73,10 @@ def evaluate_student_wrapper(student_id, df):
 
     
     first_attempt = evaluate_student_by_first_attempt(df, student_id)
-    first_success = evaluate_student_by_attempts_til_correct(df, student_id)
+    # first_success = evaluate_student_by_attempts_til_correct(df, student_id)
     unanswered = evaluate_student_by_unanswered_questions(df, student_id)
     
-    worst_topics = evaluate_student_topics(first_attempt, first_success, unanswered)
+    worst_topics = evaluate_student_topics(first_attempt, unanswered)
     
     book = df[df['student_id'] == student_id]["book"].unique()[0]
     if (book == "College / Advanced Statistics and Data Science (ABCD)"):

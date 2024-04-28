@@ -2,3 +2,4 @@ Data
 .fseventsd
 .Spotlight-V100
 scores.csv
+__pycache__
